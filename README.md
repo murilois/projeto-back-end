@@ -1,2 +1,2 @@
-# projeto-back-end
-Repositório utilizado para o trabalho da cadeira de Programação Back-End com foco em Java.
+# FruitStock
+Repositório utilizado para o projeto FruitStock da cadeira de Programação Back-End com foco em Java, arquitetura em camadas e microsserviços.
