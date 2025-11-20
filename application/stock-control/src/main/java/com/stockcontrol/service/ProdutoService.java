@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class ProdutoService {
     private FornecedorRepository fornecedorRepository;
     
     @Transactional
+    @CacheEvict(value = { "produtos", "produtos_all" }, allEntries = true) // Limpa o cache para obrigar uma nova busca no banco na próxima leitura
     public Produto save(ProdutoDTO dto) {
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada."));
@@ -58,8 +61,18 @@ public class ProdutoService {
         }
         return produtoSalvo;
     }
-
-    public List<Produto> findAll() { return produtoRepository.findAll(); }
-    public Optional<Produto> findById(UUID id) { return produtoRepository.findById(id); }
-    public void delete(UUID id) { produtoRepository.deleteById(id); }
+    @Cacheable(value = "produtos_all")
+    public List<Produto> findAll() { 
+    	System.out.println("Buscando todos os produtos no Banco de Dados");
+    	return produtoRepository.findAll(); 
+    	}
+    @Cacheable(value = "produtos", key = "#id")
+    public Optional<Produto> findById(UUID id) {
+    	System.out.println("Buscando produto " + id + " no Banco de Dados");
+    	return produtoRepository.findById(id); 
+    }
+    @CacheEvict(value = { "produtos", "produtos_all" }, allEntries = true)
+    public void delete(UUID id) { 
+    	produtoRepository.deleteById(id); 
+    	}
 }
