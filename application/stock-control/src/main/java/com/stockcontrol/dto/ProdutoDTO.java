@@ -39,9 +39,18 @@ public class ProdutoDTO {
     
     @Schema(description = "Status do produto", defaultValue = "true")
     private Boolean ativo;
-
+    
+    @Schema(description = "Quantidade mínima para alerta de estoque baixo", example = "10")
+    @Positive(message = "Estoque mínimo deve ser positivo")
+    private BigDecimal estoqueMinimo;
+    
     @Schema(description = "UUID da Categoria a qual este produto pertence", example = "d290f1ee-6c54-4b01-90e6-d701748f0851")
     @NotNull(message = "A categoria é obrigatória")
     private UUID categoriaId;
+    
+    @Schema(description = "UUID do Fornecedor", example = "uuid-do-fornecedor-aqui")
+    @NotNull(message = "Fornecedor é obrigatório")
+    private UUID fornecedorId;
+    
     
 }    

@@ -46,7 +46,9 @@ public class Produto implements Serializable {
     @JoinColumn(name = "categoria_id") 
     private Categoria categoria;
 
-    
+    @ManyToOne
+    @JoinColumn(name = "fornecedor_id")
+    private Fornecedor fornecedor;
     @PrePersist
     public void prePersist() {
         this.criadoEm = LocalDateTime.now();
