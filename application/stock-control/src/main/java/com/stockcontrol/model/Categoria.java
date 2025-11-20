@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,7 +42,8 @@ public class Categoria implements Serializable{
 	
 	@Column(updatable = false)
 	private LocalDateTime criadoEm;
-	
+	//Pra quebrar a saida do json de todos
+	@JsonIgnore
 	@OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
 	@ToString.Exclude
 	private List<Produto> produtos = new ArrayList<>();
